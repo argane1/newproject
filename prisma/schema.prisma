@@ -1,31 +1,30 @@
-// Prisma schema for the Claim Username flow
-// Docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider   = "sqlite"
+  url        = "file:./dev.db"
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String   @unique
-  clerkId   String   @unique
-  name      String?
-  links     Link[]
+  id       Int      @id @default(autoincrement())
+  name     String?
+  clerkId  String   @unique
+  username String?  @unique
+  email    String?  @unique
+  links    Link[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Link {
-  id        Int      @id @default(autoincrement())
-  // Add your link-specific fields here (e.g. url, title, order)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  id     Int      @id @default(autoincrement())
+  url    String
+  title  String
+  userId Int      @map("user_id")
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

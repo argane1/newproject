@@ -41,3 +41,69 @@ yarn-error.log*
 next-env.d.ts
 
 .fake
+
+# local database files
+prisma/dev.db
+*.db
+*.sqlite
+*.sqlite3
+
+# test & temporary scripts
+test-*.js
+tmp-*.js
+apply-migration.js
+check-db.js
+
+# docker-compose (optional, not part of standard app)
+docker-compose.yml
+
+# sample data / seed scripts (not production code)
+scripts/insert-sample-data.js
+prisma/seed.js
+
+# migration lock file (auto-managed by Prisma CLI)
+prisma/migrations/migration_lock.toml
+
+# debug & inspection tools
+tmp-dropsq.sql
+tmp-droptables.js
+tmp-inspect.js
+
+# system / node artifacts
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# coverage reports
+/coverage
+
+# next build output
+/.next/
+/out/
+/build
+
+# environment variables (keep secrets out of version control)
+.env*
+
+# vercel config
+.vercel
+
+# yarn / pnpm artifacts
+/.pnp
+.pnp.*
+.yarn/*
+! .yarn/patches
+! .yarn/plugins
+! .yarn/releases
+! .yarn/versions
+
+# node modules
+/node_modules
+
+# symlinked workspace directories (not real code)
+@/workspace/
+@lib/
+/workspace/

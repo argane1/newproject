@@ -28,11 +28,11 @@ export async function POST(request: Request) {
     const clerkId = body.clerkId || clerkUser.id;
     
     // Check if user already exists (optional - let Prisma handle duplicates on create)
-    const existingUser = await prisma.user.findUnique({ where: { clerkId } });
+    const existingUser = await prisma.user.findFirst({ where: { clerkId } });
 
     if (existingUser) {
       await prisma.user.update({ 
-        where: { clerkId }, 
+        where: { id: existingUser.id }, 
         data: { email: body.email, username: body.username ?? '', name: body.name ?? null } 
       });
 
@@ -83,7 +83,7 @@ export async function GET(request: Request) {
     }
 
     // Fetch user with their links (if any exist)  
-    const userWithLinks = await prisma.user.findUnique({ 
+    const userWithLinks = await prisma.user.findFirst({ 
       where: { clerkId }, 
       include: { links: true } 
     });

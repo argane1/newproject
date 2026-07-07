@@ -24,25 +24,27 @@ async function resolveDbUserId(): Promise<number | null> {
 /**
  * Retrieve the authenticated user's claimable username (if not yet claimed).
  */
-export async function claimUsername(prev?: any, formData?: FormData): Promise<void> {
+export async function claimUsername(prevState?: any, formData?: FormData): Promise<void> {
   const dbUserId = await resolveDbUserId();
   if (!dbUserId) redirect("/");
 
   // Extract values directly from FormData as primary source; fall back to prev state.
   let usernameRaw: string | undefined;
-  if (prev && typeof prev === "object") {
-    usernameRaw = (prev as Record<string, unknown>)?.username ?? "";
+  if (prevState && typeof prevState === "object") {
+    const rawUsername = (prevState as Record<string, unknown>)?.username;
+    if (typeof rawUsername !== "string") { usernameRaw = ""; } else { usernameRaw = rawUsername; }
   } else if (formData) {
     usernameRaw = formData.get("username") as string ?? "";
   }
-  
+
   const username = typeof usernameRaw === "string" ? usernameRaw.trim().toLowerCase() : "";
 
   if (!username || !/^[a-z0-9_]{3,30}$/.test(username)) redirect("/dashboard");
 
   let nameRaw: string | undefined;
-  if (prev && typeof prev === "object") {
-    nameRaw = (prev as Record<string, unknown>)?.name ?? "";
+  if (prevState && typeof prevState === "object") {
+    const rawName = (prevState as Record<string, unknown>)?.name;
+    if (typeof rawName !== "string") { nameRaw = ""; } else { nameRaw = rawName; }
   } else if (formData) {
     nameRaw = formData.get("name") as string ?? "";
   }
@@ -77,13 +79,14 @@ export async function getLinks(): Promise<Array<{ id: number; title: string; url
 /**
  * Add a new link for the authenticated user.
  */
-export async function addLink(prev?: any, formData?: FormData): Promise<void> {
+export async function addLink(prevState?: any, formData?: FormData): Promise<void> {
   const dbUserId = await resolveDbUserId();
   if (!dbUserId) redirect("/");
 
   let titleRaw: string | undefined;
-  if (prev && typeof prev === "object") {
-    titleRaw = (prev as Record<string, unknown>)?.title ?? "";
+  if (prevState && typeof prevState === "object") {
+    const rawTitle = (prevState as Record<string, unknown>)?.title;
+    if (typeof rawTitle !== "string") { titleRaw = ""; } else { titleRaw = rawTitle; }
   } else if (formData) {
     titleRaw = formData.get("title") as string ?? "";
   }
@@ -91,8 +94,9 @@ export async function addLink(prev?: any, formData?: FormData): Promise<void> {
   const title = typeof titleRaw === "string" ? titleRaw.trim() : "";
 
   let urlRaw: string | undefined;
-  if (prev && typeof prev === "object") {
-    urlRaw = (prev as Record<string, unknown>)?.url ?? "";
+  if (prevState && typeof prevState === "object") {
+    const rawUrl = (prevState as Record<string, unknown>)?.url;
+    if (typeof rawUrl !== "string") { urlRaw = ""; } else { urlRaw = rawUrl; }
   } else if (formData) {
     urlRaw = formData.get("url") as string ?? "";
   }

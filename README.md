@@ -1,30 +1,31 @@
-# 🔗 LinkVault — Personal Link Manager & Profile Builder
+# Next.js SaaS Platform with Clerk Authentication
 
-> A modern, auth-backed personal link manager built with Next.js 16, Clerk authentication, and Prisma ORM. Capture your profile, claim a unique username, and curate the links that matter to you—all in one sleek dashboard.
+A modern, production-ready full-stack application built with **Next.js** and **TypeScript**, featuring secure authentication via **Clerk**, type-safe database queries through **Prisma ORM**, and a responsive UI powered by **Tailwind CSS**.
 
 ---
 
 ## ✨ Key Features
 
-- **🔐 Secure Authentication** — Built-in Clerk integration for seamless sign-up/login with persistent sessions
-- **🏷️ Username Claiming** — Lock in your unique display name (3–30 chars, lowercase alphanumeric + underscore)
-- **🔗 Link Management** — Full CRUD operations: add, view, and delete personal links from the dashboard
-- **📊 Personal Dashboard** — Clean profile page showing your username, email, and curated link list with real-time updates
-- **⚡ Server Actions** — Type-safe server-side actions for all mutations (claim, fetch, create, delete)
-- **🎨 Responsive UI** — Tailwind CSS v4 styling for a polished, mobile-friendly interface
+- 🔐 **Secure Authentication**: Full Clerk integration for user management
+- 💾 **Type-Safe Database**: Prisma ORM with PostgreSQL (SQLite dev)
+- 🎨 **Responsive UI**: Tailwind CSS with shadcn/ui components
+- 🚀 **Next.js App Router**: Modern server-side rendering and API routes
+- 🔗 **Webhook Sync**: Automated Clerk sync via webhook handler
+- 📊 **Dashboard**: User management interface
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠 Tech Stack
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Framework | Next.js | 16.2.9 |
-| Language | TypeScript | ^5 |
-| UI Styling | Tailwind CSS | v4 (PostCSS) |
-| ORM | Prisma | ^6.3 |
-| Auth | Clerk | ^7.5.9 + SDK Node ^4.13.23 |
-| Client Runtime | React | 19.2.4 |
+| Technology | Purpose |
+|-----------|---------|
+| Next.js 15.4 | React framework with App Router |
+| TypeScript | Type-safe development |
+| Prisma ORM | Database queries and schema management |
+| Clerk | Authentication and user management |
+| Tailwind CSS | Utility-first styling |
+| shadcn/ui | Accessible, customizable components |
+| PostgreSQL / SQLite | Database (dev: SQLite, prod: PostgreSQL) |
 
 ---
 
@@ -32,53 +33,62 @@
 
 ### Prerequisites
 
-- **Node.js** ≥ 20.x with npm
-- A valid **[Clerk API Key](https://dashboard.clerk.com/)** (set as `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`)
+- **Node.js** 20+ installed ([Download](https://nodejs.org/))
+- **npm** or **yarn** package manager
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/argane1/newproject.git
-cd newproject
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/<your-username>/project.git
+   cd project
+   ```
 
-# Install dependencies
-npm install
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-# Set up environment variables
-cp .env.example .env   # (edit with your Clerk keys)
+3. Set up environment variables (`.env`):
+   ```env
+   DATABASE_URL="file:./dev.db"  # For development
+   CLERK_SECRET_KEY=your_clerk_secret_key_here
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxx
+   ```
 
-# Run database migrations
-npx prisma migrate dev --name init
+4. Run database migrations:
+   ```bash
+   npx prisma migrate dev --name init
+   ```
 
-# Start the development server
-npm run dev
-```
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to begin.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
 ---
 
 ## 📁 Project Structure
 
 ```
-my-app/
-├── app/                    # Next.js App Router routes & components
-│   ├── actions.ts         # Server Actions (auth, CRUD operations)
-│   ├── ClerkProvider.tsx  # Clerk authentication provider wrapper
-│   ├── dashboard.tsx      # User profile dashboard page
-│   ├── layout.tsx         # Root layout with global providers
-│   └── page.tsx           # Home page (username claim + link list)
-├── lib/
-│   └── prisma.ts          # Prisma client singleton instance
-├── prisma/
-│   ├── schema.prisma      # Database schema (User, Link models)
-│   └── migrations/        # Versioned migration files
-├── public/                 # Static assets & favicons
-├── .env.example            # Environment variables template
-├── next.config.ts         # Next.js configuration
-├── tsconfig.json          # TypeScript configuration
-└── package.json           # Dependencies & scripts
+project/
+├── app/                     # Next.js App Router
+│   ├── actions.ts           # Server actions
+│   ├── ClerkProvider.tsx    # Clerk authentication wrapper
+│   ├── dashboard.tsx        # Dashboard page
+│   ├── layout.tsx           # Root layout with providers
+│   └── page.tsx             # Home page
+├── lib/                     # Utilities
+│   └── clerk-webhook-sync.ts  # Clerk webhook handler
+├── prisma/                  # Database schema & migrations
+│   ├── dev.db              # Development database
+│   ├── fix-schema.sql      # Schema fixes
+│   ├── schema.prisma       # Prisma schema definition
+│   └── seed.js             # Database seeder
+├── .gitignore               # Git ignore rules
+└── package.json             # Dependencies & scripts
 ```
 
 ---

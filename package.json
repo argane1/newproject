@@ -8,11 +8,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
-    "@clerk/nextjs": "7.5.9",
+    "@clerk/clerk-sdk-node": "^4.13.23",
+    "@clerk/nextjs": "^7.5.9",
     "@prisma/client": "^6.3",
+    "clerk-js": "^0.0.1-security",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4"
